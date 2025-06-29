@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import React from 'react';
 import {images} from '@/constants/index';
-import {Image, Text} from 'react-native';
+import {Text} from 'react-native';
 import {ImageBackground} from "expo-image";
 import {borderRadius, spacing} from "@/styles/spacing";
 import {colors} from "@/styles/colors";
@@ -50,18 +50,14 @@ interface TabIconProps {
 
 const TabIcon = (props: TabIconProps) => {
     const {title, icon, focused} = props;
-    if (focused) {
-        return (
-            <TabImageBackground source={images.highlight}>
-                <TabImage source={icon} style={{tintColor: colors.secondary}}/>
-                <TabText>{title}</TabText>
-            </TabImageBackground>
-        );
-    } else {
-        return <NonFocusedTabView>
-            <TabImage source={icon} style={{tintColor: colors.light[200]}}/>
-        </NonFocusedTabView>
-    }
+
+    const ContainerEle = focused ? TabImageBackground : NonFocusedTabView;
+    const tabImageTintColor = focused ? colors.secondary : colors.light[200];
+    return <ContainerEle source={images.highlight}>
+        <TabImage source={icon} style={{tintColor: tabImageTintColor}}/>
+        {focused && <TabText>{title}</TabText>}
+    </ContainerEle>
+
 };
 
 export default TabIcon;
